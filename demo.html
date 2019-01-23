@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TodoList</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div>
+            <input v-model="inputValue"/>
+            <button @click="handleSubmit">提交</button>
+        </div>
+        <ul>
+            <!--<todo-item v-for="item of list"></todo-item>-->
+            <todo-item 
+                v-for="(item,index) of list"
+                :key="index"
+                :content="item"
+                :index="index"
+                @delete="handleDelete"
+            >
+            </todo-item>
+            <!--循环展示 content index 接收的属性  父组件能监听到子组件向外触发的delete方法，然后执行handleDelete-->
+        </ul>
+    </div>
+    <script>
+        //vue里的每一个组件都是一个vue实例，组件里也可以写methods，可以写data,等等。。。
+        // Vue.component('todo-item',{//全局组件  定义了todo-item  直接在模板里引用这个组件即可
+        //     props:['content'],//接收从外部传过来的叫content的组件 子组件要显式地用 props 选项声明它期待获得的数据静态Prop通过为子组件在父组件中的占位符添加特性的方式来达到传值的目的
+        //     template:'<li>{{content}}</li>'
+        // })
+        var TodoItem = {//局部组件 想要使用，必须在实例里定义components 这样上面模板就可以用这个组件了
+            template:'<li @click="delList">{{content}} {{index}}</li>',//组件里绑定click事件 
+            props:['content','index'],
+            methods:{
+                delList: function () { //子组件接收到要传给父组件的下标  事件名字叫 delete  向外触发
+                    this.$emit('delete', this.index)
+                }
+            }
+        }
+        new Vue({
+            el:"#root",
+            components:{
+                'todo-item':TodoItem
+            },
+            data:{
+                inputValue:'',
+                list:[]
+            },
+            methods:{
+                handleSubmit:function(){
+                    this.list.push(this.inputValue)
+                    this.inputValue = ''
+                },
+                handleDelete:function(){ //父组件监听接收到子组件传过来的数据
+                    this.list.splice(index,1) //删除对应下标的内容
+                }
+            }
+        })
+    </script>
+</body>
+</html>

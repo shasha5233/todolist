@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue入门</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div v-if="show"  v-show="show">hello vivian</div>
+        <button @click="toggleChange">toggle</button>
+        <ul>
+            <li v-for="item of list" :key="item">{{item}}</li>
+        </ul>
+        <br/>
+        <br/>
+        <div v-bind:title="'123'+title">hello world</div>
+        <input v-model="content"/>
+        <div>{{content}}</div>
+        姓：<input v-model="firstName" />
+        名：<input v-model="lastName" />
+        <!--<div>{{firstName}}{{lastName}}</div>-->
+        <!--得到的是姓名，但这样表述有些冗余  生成一个新的变量 fullName -->
+        <div>{{fullName}}</div>
+        <!--fullName为 firstName和lastName的和-->
+        <div>{{count}}</div>
+    </div>
+    <script>
+        new Vue({//创建vue实例
+            el:"#root", //挂载点id=root的标签
+            //template:'<h1>hello {{msg}}</h1>',//模板可以写在template里，也可以写在挂载点内部
+            data:{//数据
+                show:true,
+                list:[1,2,3],
+                content:"this is content",
+                title:"this is title",
+                firstName:'',
+                lastName:'',
+                count:0
+            },
+            computed:{//计算属性
+                fullName:function(){
+                    return this.firstName +''+ this.lastName
+                }
+            },
+            watch:{
+                fullName:function(){//监听某个数据的变化
+                    this.count ++
+                }
+            },
+            methods:{
+                handleClick:function(){
+                   this.content = "word" //this指的是Uue实例下的data的内容
+                },
+                toggleChange:function(){//取show的反
+                    this.show = !this.show;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

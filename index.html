@@ -7,6 +7,8 @@
 </head>
 <body>
     <div id="root">
+        <div>{{changecontent}}</div>
+        <br/>
         <div v-if="show"  v-show="show">hello vivian</div>
         <button @click="toggleChange">toggle</button>
         <ul>
@@ -26,13 +28,14 @@
         <div>{{count}}</div>
     </div>
     <script>
-        new Vue({//创建vue实例
+        var app = new Vue({//创建vue实例
             el:"#root", //挂载点id=root的标签
             //template:'<h1>hello {{msg}}</h1>',//模板可以写在template里，也可以写在挂载点内部
             data:{//数据
                 show:true,
                 list:[1,2,3],
                 content:"this is content",
+                changecontent:"change word",
                 title:"this is title",
                 firstName:'',
                 lastName:'',
@@ -57,6 +60,9 @@
                 }
             }
         })
+        setTimeout(()=>{//app是创建的vue实例  2秒后更改内容
+            app.$data.changecontent = "byebye word"
+        },2000)
     </script>
 </body>
 </html>

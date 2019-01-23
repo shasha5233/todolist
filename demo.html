@@ -27,7 +27,7 @@
     </div>
     <script>
         //vue里的每一个组件都是一个vue实例，组件里也可以写methods，可以写data,等等。。。
-        // Vue.component('todo-item',{//全局组件  定义了todo-item  直接在模板里引用这个组件即可
+        // Vue.component('TodoItem',{//全局组件  定义了TodoItem  直接在模板里引用这个组件时驼峰用-连接，大写变小写 即 todo-item
         //     props:['content'],//接收从外部传过来的叫content的组件 子组件要显式地用 props 选项声明它期待获得的数据静态Prop通过为子组件在父组件中的占位符添加特性的方式来达到传值的目的
         //     template:'<li>{{content}}</li>'
         // })

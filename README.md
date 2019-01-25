@@ -7,3 +7,5 @@ vue.js从官网上直接下载用<script>标签引入即可  当然也可以npm 
 index.html主要是vue的基本语法及用法
 
 demo.html主要是写一个简单的todolist的小实例
+
+lift.html主要是vue的生命周期

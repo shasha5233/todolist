@@ -55,7 +55,9 @@
                 list:[]
             },
             methods:{
-                handleSubmit:function(){
+                //数据更新方法 一、vue提供的数组的变异方法 push pop shift unshift splice sort reverse
+                //二、直接改变数据的引用地址
+                handleSubmit:function(){  
                     this.list.push(this.inputValue)
                     this.inputValue = ''
                 },

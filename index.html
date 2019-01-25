@@ -9,7 +9,10 @@
     <div id="root">
         <div>{{changecontent}}</div>
         <br/>
-        <div v-if="show"  v-show="show">hello vivian</div>
+        <div v-if="show"  v-show="show">hello vivian</div>  <!--v-if与v-else要连在一起写-->
+        <div v-else>Bye World</div>
+
+        <template></template>  <!--template模板占位符，在页面上并不真正显示出来-->
         <button @click="toggleChange">toggle</button>
         <ul>
             <li v-for="item of list" :key="item">{{item}}</li>
@@ -41,7 +44,7 @@
                 lastName:'',
                 count:0
             },
-            computed:{//计算属性
+            computed:{//计算属性   重点知识点  内置缓存
                 fullName:function(){
                     return this.firstName +''+ this.lastName
                 }

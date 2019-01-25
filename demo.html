@@ -32,7 +32,12 @@
         //     template:'<li>{{content}}</li>'
         // })
         var TodoItem = {//局部组件 想要使用，必须在实例里定义components 这样上面模板就可以用这个组件了
-            template:'<li @click="delList">{{content}} {{index}}</li>',//组件里绑定click事件 
+            data:function(){//一个组件的 data 选项必须是一个函数
+                return{
+                    count: 0
+                }
+            },
+            template:'<li @click="delList" >{{content}} {{index}} {{count}}</li>',//组件里绑定click事件 
             props:['content','index'],
             methods:{
                 delList: function () { //子组件接收到要传给父组件的下标  事件名字叫 delete  向外触发

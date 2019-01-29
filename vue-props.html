@@ -1,0 +1,142 @@
+<!--vue 给组件绑定原生事件  只需在事件后面加上native修饰符就可以了  -->
+
+<div id="root">
+	<child @click.native="handleClick"></child>
+</div>
+<script>
+	Vue.compenent:('child',{
+		template:'<div>123</div>'
+	})
+	var vm = new Vue({
+		el:'#root',
+		methods:{
+			handleClick:function(){
+				alert('click')
+			}
+		}
+	})
+</script>
+
+
+<!--也可以通过组件向外触发一个click自定义事件 父组件监听到这个事件在执行 -->
+<div id="root">
+	<child @click="handleClick"></child>
+</div>
+<script>
+	Vue.compenent:('child',{
+		template:'<div @click="handleChildClick">123</div>',
+		methods:{
+			handleChildClick:function(){
+				this.$emit('click')
+			}
+		}
+	})
+	var vm = new Vue({
+		el:'#root',
+		methods:{
+			handleClick:function(){
+				alert('click')
+			}
+		}
+	})
+</script>
+
+<!--非父子组件传值（Bus/总线/发布订阅模式/观察者模式）-->
+<!--第一个child点击，第二个child更改  兄弟间的传值-->
+<div id="root">
+	<child content="hello"></child>
+	<child content="world"></child>
+</div>
+<script>
+	Vue.prototype.bus = new Vue(); //原生绑定bus
+	Vue.compenent:('child',{
+		data:function(){
+			return {
+				selfContent:this.content
+			}
+		},
+		props:{
+			content:String
+		},
+		template:'<div @click="handleClick">{{content}}</div>',
+		methods:{
+			handleClick:function(){
+				this.bus.$emit('change',this.selfContent);
+			}
+		},
+		mounted:function(){
+			var _this = this;
+			this.bus.$on('change',function(msg){
+				_this.selfContent = msg;
+			})
+		}
+	})
+	var vm = new Vue({
+		el:'#root'
+	})
+</script>
+
+<!--vue 使用插槽-->
+<!--插槽slot展示插入的内容  子组件插槽内容 传多个插槽时，可以定义名字，各自展示name的插槽内容
+具名插槽可以有多个
+作用域插槽 必须使用<template> 通过slot-scope对应的属性名字
+去来接收传过来的数据
+-->
+<div id="root">
+	<child>
+		<p slot="header">Vivian</p>
+		<p slot="footer">Vivian</p>
+		<template slot-scope="props"> <!-- 自己定义的属性名props-->
+			<li>{{props.item}}</li>
+		</template>
+	</child>
+</div>
+<script>
+	Vue.compenent:('child',{
+		data:function{
+			return{
+				list:[1,2,3,4]
+			}
+		},
+		template:`<div>
+					<slot name="header"></slot>
+					<p>123</p>
+					<slot name="footer"></slot>
+					<ul>
+						<slot v-for="item of list" :item=item></slot>
+					</ul>
+				  </div>`
+	})
+	var vm = new Vue({
+		el:'#root'
+	})
+</script>
+
+<!--动态组件和 v-once 
+v-once 可以有效提高性能 
+v-once数据只绑定一次，不进行更新也就是说不用再次创建-->
+<div id="root">
+	<!--<component :is="type"></component>  vue自带的动态组件 -->
+	<child-one v-if="type ==='child-one'"></child-one>
+	<child-two v-if="type ==='child-two'"></child-two>
+	<button @click="handleBtnClick">change</button>
+</div>
+<script>
+	Vue.compenent:('child-one',{
+		template:'<div v-once>child-one</div>'
+	})
+	Vue.compenent:('child-two',{
+		template:'<div v-once>child-two</div>'
+	})
+	var vm = new Vue({
+		el:'#root',
+		data:{
+			type:'child-one'
+		},
+		methods:{
+			handleBtnClick:function(){
+				this.type = this.type === 'child-one' ? 'child-two':'child-one'
+			}
+		}
+	})
+</script>

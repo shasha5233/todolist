@@ -9,3 +9,4 @@ index.html主要是vue的基本语法及用法
 demo.html主要是写一个简单的todolist的小实例
 
 lift.html主要是vue的生命周期
+trans.html 示例了vue动画   可以结合animation.css来定义动画效果，也可以用velocity.js来做动画

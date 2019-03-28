@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue动画</title>
+    <script src="./vue.js"></script>
+    <script src="./velocity.min.js"></script>
+    <style>
+        .fade-enter,.fade-leave-to{
+            opacity: 0;
+        }
+        .fade-enter-active,.fade-leave-active{
+            transition: opacity 1s;
+        }
+        .v-enter,.v-leave-to{
+            opacity: 0;
+        }
+        .v-enter-active,.v-leave-active{
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <transition name="fade">
+            <div v-if="show" key="hello">hello word</div>
+            <div v-else key="bye">bye word</div>
+        </transition>
+        <button @click="handleClick">切换</button>
+        <br/>
+        <transition-group>
+            <div v-for="item of list" :key="item.id">
+                {{item.title}}
+            </div>
+        </transition-group>
+        <button @click="handleBtnClick">Add</button>
+    </div>
+    <script>
+        var count = 0;
+        var vm = new Vue({
+            el: "#root",
+            data:{
+                show:true,
+                list:[]
+            },
+            methods:{
+                handleClick:function(){
+                    this.show = !this.show
+                },
+                handleBtnClick:function(){
+                    this.list.push({
+                        id:count++,
+                        title:'hello word'
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
